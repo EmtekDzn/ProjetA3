@@ -17,8 +17,8 @@ void visualisationT(temp_t myTemp) {
             return;
         }
 
-        fprintf(fp, "%.2f", myTemp.exterieure);
-        fprintf(fp, "%.2f", myTemp.interieure);
+        fprintf(fp, "%.2f\n", myTemp.exterieure);
+        fprintf(fp, "%.2f\n", myTemp.interieure);
 
         fclose(fp);
         remove(".verrouData"); // Suppression du verrou
