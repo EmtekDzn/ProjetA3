@@ -20,7 +20,7 @@ float consigne(float csgn)
          return csgn;
       }
 
-      fscanf(fp, "%f", csgn);
+      fscanf(fp, "%f", &csgn);
 
       fclose(fp);
       remove(".verrouData"); // Suppression du verrou
