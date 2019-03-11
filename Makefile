@@ -20,3 +20,6 @@ clean:
 
 clear:
 	rm obj/*.o *.gch -f
+
+zip:
+    zip tests.zip consigne.c consigne.h visualisationT.c visualisationT.h visualisationC.c visualisationC.h regulation.c regulation.h integration.c integration.h simulateur.c simulateur.h define.h
