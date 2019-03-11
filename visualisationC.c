@@ -12,8 +12,7 @@ void visualisationC(float puissance_f) {
       FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
       fclose(fpVerrou);
 
-      FILE *fp = fopen("data.txt",
-                        "a"); // Ouverture du fichier data.txt en mode append
+      FILE *fp = fopen("data.txt", "a"); // Ouverture du fichier data.txt en mode append
       if (fp == NULL) {
          printf("Echec de l'ouverture du fichier");
          return;
