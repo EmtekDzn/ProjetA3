@@ -14,7 +14,6 @@
    struct simParam_s* simConstruct(temp_t temperature){
      /* Variables */
       struct simParam_s* param_ps;
-      int i=0;
    
       /* Allocation memoire*/
       param_ps = malloc(sizeof(struct simParam_s));

@@ -8,7 +8,6 @@ float consigne(float csgn)
 {
    if (access(".verrouData", F_OK) != -1) { // Si le fichier .verrouData existe
       printf("Verrou présent, impossible d'ouvrir le fichier");
-      return csgn;
    } else {
       FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
       fclose(fpVerrou);
