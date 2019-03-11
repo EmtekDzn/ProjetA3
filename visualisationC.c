@@ -14,7 +14,7 @@ void visualisationC(float puissance_f) {
 
       FILE *fp = fopen("data.txt",
                         "a"); // Ouverture du fichier data.txt en mode append
-      if (fp = NULL) {
+      if (fp == NULL) {
          printf("Echec de l'ouverture du fichier");
          return;
       }

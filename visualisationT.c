@@ -12,7 +12,7 @@ void visualisationT(temp_t myTemp) {
         fclose(fpVerrou);
 
         FILE *fp = fopen("data.txt", "w");
-        if (fp = NULL) {
+        if (fp == NULL) {
             printf("Echec de l'ouverture du fichier");
             return;
         }
