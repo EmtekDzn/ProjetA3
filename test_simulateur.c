@@ -9,7 +9,7 @@
 int main(){
     params_regul params;
     params.consigne = 20;
-    params.somme_erreurs = 0;
+    params.integrale_totale = 0;
     params.mode = 2;
 
     temp_t temperature;
@@ -20,12 +20,15 @@ int main(){
 
     int i;        // increment de boucle
     float puissance = 70.0; // puissance de chauffage
-
+    float newConsigne;
 	float lastTemp = temperature.interieure;
-    for (i = 0; i < 500; i++) {
+    for (i = 0; i < 1000; i++) {
         visualisationT(temperature);
-        params.consigne = consigne(params.consigne);
-        printf("Changement puissance, Tint : %.1f,    LastTint : %.1f\n", temperature.interieure, lastTemp);
+        newConsigne = consigne(params.consigne);
+        if (params.consigne != newConsigne) {
+            params.integrale_totale = 0;
+        }
+        params.consigne = newConsigne;
         puissance = regulation(&params, params.consigne - temperature.interieure, params.consigne - lastTemp);
         visualisationC(puissance);
         lastTemp = temperature.interieure;

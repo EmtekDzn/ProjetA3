@@ -6,16 +6,15 @@
  */
 void visualisationC(float puissance_f) {
    if (access(".verrouData", F_OK) != -1) { // Si le fichier .verrouData existe
-      printf("Verrou présent, impossible d'ouvrir le fichier");
-      return;
+      printf("Verrou présent, impossible d'ouvrir le fichier data\n");
    } else {
       FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
       fclose(fpVerrou);
 
-      FILE *fp = fopen("data.txt", "r+"); // Ouverture du fichier data.txt en mode append
+      FILE *fp = fopen("data.txt", "r+"); // Ouverture du fichier data.txt en mode read+
 
       if (fp == NULL) {
-         printf("Echec de l'ouverture du fichier");
+         printf("Echec de l'ouverture du fichier\n");
          return;
       }
 
@@ -23,8 +22,8 @@ void visualisationC(float puissance_f) {
       fscanf(fp, "%f", &temp1);
       fscanf(fp, "%f", &temp2);
       rewind(fp);
-      fprintf(fp, "%f\n", temp1);
-      fprintf(fp, "%f\n", temp2);
+      fprintf(fp, "%.2f\n", temp1);
+      fprintf(fp, "%.2f\n", temp2);
       
       if (puissance_f == 0) {
          fprintf(fp, "false");

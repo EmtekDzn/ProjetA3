@@ -13,7 +13,7 @@
 void integrationTest(int regul,temp_t tInit,int nIterations){
     params_regul params;
     params.consigne = 20;
-    params.somme_erreurs = 0;
+    params.integrale_totale = 0;
     params.mode = regul;
 
     temp_t temperature = tInit;
@@ -22,11 +22,15 @@ void integrationTest(int regul,temp_t tInit,int nIterations){
 
     int i;        // increment de boucle
     float puissance = 0.0; // puissance de chauffage
-
+    float newConsigne;
 	float lastTemp = temperature.interieure;
     for (i = 0; i < nIterations; i++) {
         visualisationT(temperature);
-        params.consigne = consigne(params.consigne);
+        newConsigne = consigne(params.consigne);
+        if (params.consigne != newConsigne) {
+            params.integrale_totale = 0;
+        }
+        params.consigne = newConsigne;
         puissance = regulation(&params, params.consigne - temperature.interieure, params.consigne - lastTemp);
         visualisationC(puissance);
         lastTemp = temperature.interieure;
