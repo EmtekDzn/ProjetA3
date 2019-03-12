@@ -12,7 +12,7 @@ typedef struct {
     int mode; // Mode de régulation (TOR/PID)
     float consigne; // Température de consigne
     float integrale_totale; // Somme des intégrales (pour le I)
-} params_regul;
+}params_regul;
 
 float regulationTest(int regul, float csgn, float *tabT, int nT);
 float regulation(params_regul *params, float err, float last_err);
