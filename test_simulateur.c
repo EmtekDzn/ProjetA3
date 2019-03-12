@@ -31,6 +31,8 @@ int main(){
     temperature.exterieure = 14.0;
     temperature.interieure = 16.0;
 
+    struct simParam_s *monSimulateur_ps = simConstruct(temperature); // creation du simulateur, puissance intialisee a 0%
+    
     float lastTemp = temperature.interieure;
     
     params_regul params;
@@ -38,9 +40,7 @@ int main(){
     params.integrale_totale = 0;
     params.mode = 2;
 
-    struct simParam_s *monSimulateur_ps = simConstruct(temperature); // creation du simulateur, puissance intialis�e � 0%
-
-    for (i = 0; i < 1000; i++) {
+    for (i = 0; i < 10; i++) {
         visualisationT(temperature);
         params.consigne = consigne(params.consigne);
         //puissance = regulation(2, &params, params.consigne - temperature.interieure, params.consigne - lastTemp);
