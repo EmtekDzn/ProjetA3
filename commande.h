@@ -1,2 +1,4 @@
 #include "define.h"
-void commande();
+#include "ftd2xx.h"
+
+void commande(FT_HANDLE descr, float cmd);

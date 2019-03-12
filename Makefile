@@ -1,5 +1,5 @@
 CFLAGS = -g -Wall -pedantic
-LDFLAGS = 
+LDFLAGS = ./ftd2xx.lib
 
 SRC = $(wildcard *.c)
 NOM = $(basename $(notdir $(SRC)))
