@@ -49,26 +49,32 @@ temp_t releve(FT_HANDLE descr) {
             case 0:
                 SOText = ( ((RxBuffer[0] & 0x0F) << 8) | ((RxBuffer[1] & 0x0F ) << 4) | (RxBuffer[2] & 0x0F) );
                 SOTint = ( ((RxBuffer[3] & 0x0F) << 8) | ((RxBuffer[4] & 0x0F ) << 4) | (RxBuffer[5] & 0x0F) );
+                printf("0 : ");
                 break;
             case 1:
-                SOText = ( ((RxBuffer[1] & 0x0F) << 8) | ((RxBuffer[2] & 0x0F ) << 4) | (RxBuffer[3] & 0x0F) );
-                SOTint = ( ((RxBuffer[4] & 0x0F) << 8) | ((RxBuffer[5] & 0x0F ) << 4) | (RxBuffer[0] & 0x0F) );
+                SOText = ( ((RxBuffer[1] & 0x0F) << 8) | ((RxBuffer[0] & 0x0F ) << 4) | (RxBuffer[5] & 0x0F) );
+                SOTint = ( ((RxBuffer[2] & 0x0F) << 8) | ((RxBuffer[3] & 0x0F ) << 4) | (RxBuffer[4] & 0x0F) );
+                printf("1 : ");
                 break;
             case 2:
-                SOText = ( ((RxBuffer[2] & 0x0F) << 8) | ((RxBuffer[3] & 0x0F ) << 4) | (RxBuffer[4] & 0x0F) );
-                SOTint = ( ((RxBuffer[5] & 0x0F) << 8) | ((RxBuffer[0] & 0x0F ) << 4) | (RxBuffer[1] & 0x0F) );
+                SOText = ( ((RxBuffer[4] & 0x0F) << 8) | ((RxBuffer[5] & 0x0F ) << 4) | (RxBuffer[0] & 0x0F) );
+                SOTint = ( ((RxBuffer[1] & 0x0F) << 8) | ((RxBuffer[2] & 0x0F ) << 4) | (RxBuffer[3] & 0x0F) );
+                printf("2 : ");
                 break;
             case 8:
                 SOText = ( ((RxBuffer[3] & 0x0F) << 8) | ((RxBuffer[4] & 0x0F ) << 4) | (RxBuffer[5] & 0x0F) );
                 SOTint = ( ((RxBuffer[0] & 0x0F) << 8) | ((RxBuffer[1] & 0x0F ) << 4) | (RxBuffer[2] & 0x0F) );
+                printf("8 : ");
                 break;
             case 9:
-                SOText = ( ((RxBuffer[4] & 0x0F) << 8) | ((RxBuffer[5] & 0x0F ) << 4) | (RxBuffer[0] & 0x0F) );
-                SOTint = ( ((RxBuffer[1] & 0x0F) << 8) | ((RxBuffer[2] & 0x0F ) << 4) | (RxBuffer[3] & 0x0F) );
+                SOText = ( ((RxBuffer[2] & 0x0F) << 8) | ((RxBuffer[3] & 0x0F ) << 4) | (RxBuffer[4] & 0x0F) );
+                SOTint = ( ((RxBuffer[5] & 0x0F) << 8) | ((RxBuffer[0] & 0x0F ) << 4) | (RxBuffer[1] & 0x0F) );
+                printf("9 : ");
                 break;
             case 10:
-                SOText = ( ((RxBuffer[5] & 0x0F) << 8) | ((RxBuffer[0] & 0x0F ) << 4) | (RxBuffer[1] & 0x0F) );
-                SOTint = ( ((RxBuffer[2] & 0x0F) << 8) | ((RxBuffer[3] & 0x0F ) << 4) | (RxBuffer[4] & 0x0F) );
+                SOText = ( ((RxBuffer[1] & 0x0F) << 8) | ((RxBuffer[2] & 0x0F ) << 4) | (RxBuffer[3] & 0x0F) );
+                SOTint = ( ((RxBuffer[4] & 0x0F) << 8) | ((RxBuffer[5] & 0x0F ) << 4) | (RxBuffer[0] & 0x0F) );
+                printf("10 : ");
                 break;
         }
 

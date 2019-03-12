@@ -5,7 +5,7 @@ void commande(FT_HANDLE descr, float cmd)
     FT_STATUS ftStatus;
     DWORD BytesWritten;
 
-    char TxBuffer[256]; // Contains data to write to device
+    char TxBuffer[1]; // Contains data to write to device
 
     int puis = (cmd / 100) * 127;
 
