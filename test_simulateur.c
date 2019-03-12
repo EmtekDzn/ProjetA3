@@ -20,7 +20,6 @@ int main(){
     temperature.interieure = 16.0;
 
     float lastTemp = temperature.interieure;
-	float lastTemp = temperature.interieure;
     
     params_regul params;
     params.consigne = 20;

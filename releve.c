@@ -19,6 +19,9 @@ temp_t releve(FT_HANDLE descr) {
     printf("descr2: %p\n", descr);
     
     temp_t temp;
+    temp.exterieure = 0;
+    temp.interieure = 0;
+
     unsigned char RxBuffer[256] = {0};
     int i, SOTint, SOText;
 
@@ -30,7 +33,7 @@ temp_t releve(FT_HANDLE descr) {
     
     if(ftStatus != FT_OK) {
         // FT_Open failed
-        return;
+        return temp;
     }
 
     ftStatus = FT_Read(descr,RxBuffer,RxBytes,&BytesReceived);
