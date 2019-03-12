@@ -5,33 +5,41 @@
  * @param la puissance en %
  */
 void visualisationC(float puissance_f) {
-   if (access(".verrouData", F_OK) != -1) { // Si le fichier .verrouData existe
-      printf("Verrou present, impossible d'ouvrir le fichier data\n");
-   } else {
-      FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
-      fclose(fpVerrou);
+    if (access(".verrouData", F_OK) != -1) { // Si le fichier .verrouData existe
+        printf("visualisationC : Verrou présent, impossible d'ouvrir le fichier data\n");
+    } else {
+        FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
+        fclose(fpVerrou);
 
-      FILE *fp = fopen("data.txt", "r+"); // Ouverture du fichier data.txt en mode read+
+        FILE *fp = fopen("data.txt", "r+"); // Ouverture du fichier data.txt en mode read+
 
-      if (fp == NULL) {
-         printf("Echec de l'ouverture du fichier\n");
-         return;
-      }
+        if (fp == NULL) {
+            printf("visualisationC : Echec de l'ouverture du fichier data\n");
+            return;
+        }
 
-      float temp1, temp2;
-      fscanf(fp, "%f", &temp1);
-      fscanf(fp, "%f", &temp2);
-      rewind(fp);
-      fprintf(fp, "%.2f\n", temp1);
-      fprintf(fp, "%.2f\n", temp2);
-      
-      if (puissance_f == 0) {
-         fprintf(fp, "false");
-      } else {
-         fprintf(fp, "true");
-      }
+        float temp1, temp2;
+        fscanf(fp, "%f", &temp1);
+        fscanf(fp, "%f", &temp2);
+        fclose(fp);
 
-      fclose(fp);
-      remove(".verrouData"); // Suppression du verrou
-   }
+        fp = fopen("data.txt", "w");
+        if (fp == NULL) {
+            printf("visualisationC : Echec de la réouverture du fichier data\n");
+            return;
+        }
+        fprintf(fp, "%.2f\n", temp1);
+        fprintf(fp, "%.2f\n", temp2);
+
+        if (puissance_f == 0) {
+            fprintf(fp, "false");
+        } else {
+            fprintf(fp, "true");
+        }
+
+        fclose(fp);
+        while (access(".verrouData", F_OK) != -1) { //Tant que le verrou n'est pas supprimé
+            remove(".verrouData"); // Suppression du verrou
+        }
+    }
 }

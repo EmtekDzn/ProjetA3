@@ -17,7 +17,7 @@ float regulationTest(int regul, float csgn, float *tabT, int nT) {
     params.mode = regul;
     int i;
     for (i = 1; i < nT; i++) {
-        cmd = regulation(&params, csgn - tabT[i], csgn - tabT[i - 1]);
+        cmd = regulation(1, &params, csgn - tabT[i], csgn - tabT[i - 1]);
     }
     return cmd;
 }
@@ -25,23 +25,42 @@ float regulationTest(int regul, float csgn, float *tabT, int nT) {
 /**
  * @fn regulation
  * Renvoie la puissance en %
+ * @param mode_PID (2=simu, 3=USB)
  * @param params le pointeur vers la struct params
  * @param err l'erreur actuelle (consigne - Température intérieure)
  * @param last_err l'erreur précédente
  * @return la commande
  */
-float regulation(params_regul *params, float err, float last_err) {
+float regulation(int mode_PID, params_regul *params, float err, float last_err) {
     if (params->mode == 1) { // Mode TOR
-        if (err > 0) { // Si la température intérieure est inférieure à la consigne
+        if (err > 0) {       // Si la température intérieure est inférieure à la consigne
             return 40;
         }
         return 0;
     } else { // Mode PID
+        float ki, kd, kp;
+        switch (mode_PID) {
+        case 1:
+            ki = KI_UNIT;
+            kd = KD_UNIT;
+            kp = KP_UNIT;
+            break;
+        case 2:
+            ki = KI_SIMU;
+            kd = KD_SIMU;
+            kp = KP_SIMU;
+            break;
+        case 3:
+            ki = KI_USB;
+            kd = KD_USB;
+            kp = KP_USB;
+            break;
+        }
 
-        float P = err * KP;
-        params->integrale_totale += (err * DELTA_T) - ((err*err)/(2*DELTA_T));
-        float I = params->integrale_totale * KI;
-        float D = ((err - last_err)/DELTA_T) * KD;
+        float P = err * kp;
+        params->integrale_totale += (err * DELTA_T) + ((last_err - err) * (DELTA_T)) / 2;
+        float I = params->integrale_totale * ki;
+        float D = ((err - last_err) / DELTA_T) * kd;
 
         printf("P : %f\nI : %f\nD : %f\n", P, I, D);
         float PID = P + I + D;
