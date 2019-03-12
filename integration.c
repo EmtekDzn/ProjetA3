@@ -1,8 +1,8 @@
 #include "integration.h"
-#include "regulation.h"
-#include "visualisationT.h"
-#include "visualisationC.h"
 #include "consigne.h"
+#include "regulation.h"
+#include "visualisationC.h"
+#include "visualisationT.h"
 
 /**
  * Réalise l'intégration des fonctions
@@ -10,7 +10,7 @@
  * @param tInit les températures initiales
  * @param nInterations le nombre d'itérations du programme
  */
-void integrationTest(int regul,temp_t tInit,int nIterations){
+void integrationTest(int regul, temp_t tInit, int nIterations) {
     params_regul params;
     params.consigne = 20;
     params.integrale_totale = 0;
@@ -20,18 +20,13 @@ void integrationTest(int regul,temp_t tInit,int nIterations){
 
     struct simParam_s *monSimulateur_ps = simConstruct(temperature); // creation du simulateur, puissance intialis�e � 0%
 
-    int i;        // increment de boucle
+    int i;                 // increment de boucle
     float puissance = 0.0; // puissance de chauffage
-    float newConsigne;
-	float lastTemp = temperature.interieure;
+    float lastTemp = temperature.interieure;
     for (i = 0; i < nIterations; i++) {
         visualisationT(temperature);
-        newConsigne = consigne(params.consigne);
-        if (params.consigne != newConsigne) {
-            params.integrale_totale = 0;
-        }
-        params.consigne = newConsigne;
-        puissance = regulation(&params, params.consigne - temperature.interieure, params.consigne - lastTemp);
+        params.consigne = consigne(params.consigne);
+        puissance = regulation(2, &params, params.consigne - temperature.interieure, params.consigne - lastTemp);
         visualisationC(puissance);
         lastTemp = temperature.interieure;
         temperature = simCalc(puissance, monSimulateur_ps); // simulation de l'environnement

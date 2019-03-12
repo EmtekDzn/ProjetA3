@@ -9,11 +9,23 @@
 #include "visualisationT.h"
 #include "consigne.h"
 
+void microsleep(__int64 usec)
+{
+    HANDLE timer;
+    LARGE_INTEGER ft;
+
+    ft.QuadPart = -(10 * usec); // Convert to 100 nanosecond interval, negative value indicates relative time
+
+    timer = CreateWaitableTimer(NULL, TRUE, NULL);
+    SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0);
+    WaitForSingleObject(timer, INFINITE);
+    CloseHandle(timer);
+}
+
 int main(){
     int i;        // increment de boucle
     float puissance = 70.0; // puissance de chauffage
 	float cmd, csgn;
-    float newConsigne;
 	
     temp_t temperature;
     temperature.exterieure = 14.0;
@@ -30,34 +42,28 @@ int main(){
 
     for (i = 0; i < 1000; i++) {
         visualisationT(temperature);
-        newConsigne = consigne(params.consigne);
-        
-        if (params.consigne != newConsigne) {
-            params.integrale_totale = 0;
-        }
-        
-        params.consigne = newConsigne;
-        puissance = regulation(&params, params.consigne - temperature.interieure, params.consigne - lastTemp);
+        params.consigne = consigne(params.consigne);
+        //puissance = regulation(2, &params, params.consigne - temperature.interieure, params.consigne - lastTemp);
         visualisationC(puissance);
         lastTemp = temperature.interieure;
         temperature = simCalc(puissance, monSimulateur_ps); // simulation de l'environnement
-		usleep(5e4);
+        //microsleep(25e4);
     }
-
-	/**
+    return EXIT_SUCCESS;
+    /** 
 	 * Programme USB
 	 */
-	
-	//FT_HANDLE descr = initUSB();
-	FT_HANDLE descr = 0;
 
-	do {
-		temperature = releve(descr);
-		visualisationT(temperature);
-		csgn = consigne(csgn);
-		cmd = regulation(&params, params.consigne - temperature.interieure, params.consigne - lastTemp);
-		visualisationC(cmd);
-		commande(descr, cmd);
+    //FT_HANDLE descr = initUSB();
+    FT_HANDLE descr = 0;
+
+    do {
+        temperature = releve(descr);
+        visualisationT(temperature);
+        csgn = consigne(csgn);
+        cmd = regulation(3, &params, params.consigne - temperature.interieure, params.consigne - lastTemp);
+        visualisationC(cmd);
+        commande(descr, cmd);
 	} while(1);
 
 	simDestruct(monSimulateur_ps); // destruction de simulateur
