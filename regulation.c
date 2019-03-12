@@ -26,21 +26,20 @@ float regulationTest(int regul, float csgn, float *tabT, int nT) {
  * @fn regulation
  * Renvoie la puissance en %
  * @param params le pointeur vers la struct params
- * @param temp_int la température intérieure
- * @param last_temp_int la température intérieure précédente
+ * @param err l'erreur actuelle (consigne - Température intérieure)
+ * @param last_err l'erreur précédente
  * @return la commande
  */
 float regulation(params_regul *params, float err, float last_err) {
     if (params->mode == 1) { // Mode TOR
-        if (err >
-            0) { // Si la température intérieure est inférieure à la consigne
+        if (err > 0) { // Si la température intérieure est inférieure à la consigne
             return 40;
         }
         return 0;
     } else { // Mode PID
 
-        params->integrale_totale += err * DELTA_T;
         float P = err * KP;
+        params->integrale_totale += (err * DELTA_T) - ((err*err)/(2*DELTA_T));
         float I = params->integrale_totale * KI;
         float D = ((err - last_err)/DELTA_T) * KD;
 
