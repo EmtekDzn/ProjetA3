@@ -24,9 +24,10 @@ int main(){
     int i;        // increment de boucle
     float puissance = 70.0; // puissance de chauffage
 	float cmd = 20;
+	float csgn;
 
 	float lastTemp = temperature.interieure;
-    for (i = 0; i < 500; i++) {
+    for (i = 0; i < 5; i++) {
         visualisationT(temperature);
         params.consigne = consigne(params.consigne);
         printf("Changement puissance, Tint : %.1f,    LastTint : %.1f\n", temperature.interieure, lastTemp);
@@ -47,10 +48,10 @@ int main(){
 
 	do {
 		temperature = releve(descr);
-		//visualisationT(temp);
-		//csgn = consigne(csgn);
-		//cmd = regulation(mode, temp, csgn, param_regul);
-		//visualisationC(cmd);
+		visualisationT(temperature);
+		csgn = consigne(csgn);
+		cmd = regulation(mode, temp, csgn, param_regul);
+		visualisationC(cmd);
 		commande(descr, cmd);
 	} while(1);
 
