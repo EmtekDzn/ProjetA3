@@ -6,7 +6,7 @@
  */
 void visualisationC(float puissance_f) {
    if (access(".verrouData", F_OK) != -1) { // Si le fichier .verrouData existe
-      printf("Verrou présent, impossible d'ouvrir le fichier data\n");
+      printf("Verrou present, impossible d'ouvrir le fichier data\n");
    } else {
       FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
       fclose(fpVerrou);
