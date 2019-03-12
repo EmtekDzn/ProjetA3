@@ -58,6 +58,7 @@ int main(){
 		visualisationT(temperature);
 		csgn = consigne(csgn);
 		cmd = regulation(&params, params.consigne - temperature.interieure, params.consigne - lastTemp);
+        printf("Commande : %f\n", cmd);
 		visualisationC(cmd);
 		commande(descr, cmd);
 	} while(1);
