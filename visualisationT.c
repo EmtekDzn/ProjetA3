@@ -11,7 +11,7 @@ void visualisationT(temp_t myTemp) {
         fclose(fpVerrou);
 
         FILE *fp = fopen("data.txt", "r+");
-        if (fp == NULL) {
+        if (fp == NULL) { //Si l'ouverture du fichier a échoué
             printf("visualisationT : Echec de l'ouverture du fichier data\n");
             return;
         }
@@ -21,7 +21,7 @@ void visualisationT(temp_t myTemp) {
         }
 
         fp = fopen("data.txt", "w");
-        if (fp == NULL) {
+        if (fp == NULL) { //Si l'ouverture du fichier a échoué
             printf("visualisationC : Echec de la réouverture du fichier data\n");
             return;
         }
@@ -34,8 +34,8 @@ void visualisationT(temp_t myTemp) {
         }
 
         fclose(fp);
-        while (access(".verrouData", F_OK) != -1) {//Tant que le verrou n'est pas supprimé
-            remove(".verrouData"); // Suppression du verrou
+        while (access(".verrouData", F_OK) != -1) { //Tant que le verrou n'est pas supprimé
+            remove(".verrouData");                  // Suppression du verrou
         }
     }
 }
