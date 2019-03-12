@@ -39,7 +39,7 @@
      
       temp_t temperature;
 
-     /* Simulateur	 */
+     /* Simulateur */
       temperature.exterieure = param_ps->tempExt_f;
       temperature.interieure = (param_ps->tempExt_f + param_ps->rgf*PUISS_MAX * ((float)puissance / 100.0) + ((float)param_ps->tempInt_f*param_ps->kr))/(param_ps->kr+1.0);
       

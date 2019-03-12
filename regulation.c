@@ -1,5 +1,6 @@
 #include "regulation.h"
 /**
+ * @fn regulationTest
  * Renvoie la puissance en % ou tout-ou-rien
  * @param regul 1 = tout-ou-rien, 2 = PID
  * @param csgn la température de consigne
@@ -12,7 +13,7 @@ float regulationTest(int regul, float csgn, float *tabT, int nT) {
     float cmd = 100.0;
     params_regul params;
     params.consigne = csgn;
-    params.somme_erreurs = 0;
+    params.integrale_totale = 0;
     params.mode = regul;
     int i;
     for (i = 1; i < nT; i++) {
@@ -22,6 +23,7 @@ float regulationTest(int regul, float csgn, float *tabT, int nT) {
 }
 
 /**
+ * @fn regulation
  * Renvoie la puissance en %
  * @param params le pointeur vers la struct params
  * @param temp_int la température intérieure
@@ -29,20 +31,25 @@ float regulationTest(int regul, float csgn, float *tabT, int nT) {
  * @return la commande
  */
 float regulation(params_regul *params, float err, float last_err) {
-    if (params->mode == 1) {
-        if (err > 0) {
+    if (params->mode == 1) { // Mode TOR
+        if (err >
+            0) { // Si la température intérieure est inférieure à la consigne
             return 40;
         }
         return 0;
-    } else {
-        params->somme_erreurs += err;
+    } else { // Mode PID
+
+        params->integrale_totale += err * DELTA_T;
         float P = err * KP;
-        float I = P + params->somme_erreurs * KI;
-        float D = P + (err - last_err) * KD;
-        printf("P : %.2f\nI : %.2f\nD : %.2f\n", P, I, D);
+        float I = params->integrale_totale * KI;
+        float D = ((err - last_err)/DELTA_T) * KD;
+
+        printf("P : %f\nI : %f\nD : %f\n", P, I, D);
         float PID = P + I + D;
         if (PID > 100)
             PID = 100;
+        if (PID < 0)
+            PID = 0;
         return PID;
     }
 }

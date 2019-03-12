@@ -5,25 +5,21 @@
  */
 void visualisationT(temp_t myTemp) {
     if (access(".verrouData", F_OK) != -1) { // Si le fichier .verrouData existe
-        printf("Verrou présent, impossible d'ouvrir le fichier");
-        return;
+        printf("Verrou présent, impossible d'ouvrir le fichier data\n");
     } else {
         FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
         fclose(fpVerrou);
 
         FILE *fp = fopen("data.txt", "r+");
         if (fp == NULL) {
-            printf("Echec de l'ouverture du fichier");
-            return;
+            printf("Echec de l'ouverture du fichier\n");
         }
-        float dummy1, dummy2;
-        char puis;
-        fscanf(fp, "%f", &dummy1);
-        fscanf(fp, "%f", &dummy2);
-        fseek(fp, 1, SEEK_CUR);
-        fscanf(fp, "%c", &puis);
+        char puis = 0;
+        while(puis != 't' && puis != 'f'){//Tant qu'on a pas trouvé la première lettre de la commande chauffage
+            fscanf(fp, "%c", &puis);//Lire le caractère courant (et avancer le curseur de 1)
+        } 
 
-        rewind(fp);
+        fp = freopen(NULL, "w", fp);
 
         fprintf(fp, "%.2f\n", myTemp.exterieure);
         fprintf(fp, "%.2f\n", myTemp.interieure);
