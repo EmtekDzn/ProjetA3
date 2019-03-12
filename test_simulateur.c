@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "simulateur.h"
+#include "ftd2xx.h"
+#include "commande.h"
+#include "releve.h"
 #include "regulation.h"
 #include "visualisationC.h"
 #include "visualisationT.h"
@@ -12,7 +15,7 @@ int main(){
     params.integrale_totale = 0;
     params.mode = 2;
 
-    temp_t temperature;
+	temp_t temperature;
     temperature.exterieure = 14.0;
     temperature.interieure = 16.0;
 
@@ -36,6 +39,27 @@ int main(){
 		usleep(5e4);
         
     }
+
+	/**
+	 * Programme USB
+	 */
+	
+	//FT_HANDLE descr = initUSB();
+	FT_HANDLE descr = 0;
+
+	do {
+		temperature = releve(descr);
+		//visualisationT(temp);
+		//csgn = consigne(csgn);
+		//cmd = regulation(mode, temp, csgn, param_regul);
+		//visualisationC(cmd);
+		commande(descr, cmd);
+	} while(1);
+
 	simDestruct(monSimulateur_ps); // destruction de simulateur
+	
+	//FT_Close(descr);
+	
+	printf("cfini");
 	return EXIT_SUCCESS;
 }
