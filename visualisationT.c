@@ -10,32 +10,36 @@ void visualisationT(temp_t myTemp) {
         FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
         fclose(fpVerrou);
 
-        FILE *fp = fopen("data.txt", "r+");
+        FILE *fp = fopen("data.txt", "r");
         if (fp == NULL) { //Si l'ouverture du fichier a échoué
             printf("visualisationT : Echec de l'ouverture du fichier data\n");
             return;
         }
+
         char puis = 0;
         while (puis != 't' && puis != 'f') { //Tant qu'on a pas trouvé la première lettre de la commande chauffage
             fscanf(fp, "%c", &puis);         //Lire le caractère courant (et avancer le curseur de 1)
         }
 
+        fclose(fp);
         fp = fopen("data.txt", "w");
         if (fp == NULL) { //Si l'ouverture du fichier a échoué
             printf("visualisationC : Echec de la réouverture du fichier data\n");
             return;
         }
-        fprintf(fp, "%.2f\n", myTemp.exterieure);
-        fprintf(fp, "%.2f\n", myTemp.interieure);
+
+        fprintf(fp, "%.2f\n", myTemp.exterieure); //Écriture des températures
+        fprintf(fp, "%.2f\n", myTemp.interieure); //Écriture des températures
+
         if (puis == 't') {
-            fprintf(fp, "true");
+            fprintf(fp, "true"); //Recopie de l'état du chauffage
         } else {
-            fprintf(fp, "false");
+            fprintf(fp, "false"); //Recopie de l'état du chauffage
         }
 
         fclose(fp);
         while (access(".verrouData", F_OK) != -1) { //Tant que le verrou n'est pas supprimé
-            remove(".verrouData");                  // Suppression du verrou
+            remove(".verrouData");                  //Suppression du verrou
         }
     }
 }

@@ -5,6 +5,7 @@
 #include "visualisationT.h"
 
 /**
+ * @fn integrationTest
  * Réalise l'intégration des fonctions
  * @param regul 1 = tout-ou-rien, 2 = PID
  * @param tInit les températures initiales
@@ -20,15 +21,17 @@ void integrationTest(int regul, temp_t tInit, int nIterations) {
 
     struct simParam_s *monSimulateur_ps = simConstruct(temperature); // creation du simulateur, puissance intialis�e � 0%
 
-    int i;                 // increment de boucle
-    float puissance = 0.0; // puissance de chauffage
-    float lastTemp = temperature.interieure;
+    int i;                                   //Increment de boucle
+    float puissance = 0.0;                   //Puissance de chauffage
+    float lastTemp = temperature.interieure; //Pour la première boucle, la dernière température est l'actuelle
+
     for (i = 0; i < nIterations; i++) {
-        visualisationT(temperature);
+        visualisationT(temperature); //Ecriture de la température dans data.txt
         params.consigne = consigne(params.consigne);
         puissance = regulation(2, &params, params.consigne - temperature.interieure, params.consigne - lastTemp);
-        visualisationC(puissance);
-        lastTemp = temperature.interieure;
-        temperature = simCalc(puissance, monSimulateur_ps); // simulation de l'environnement
+            //Régulation de la puissance en fonction de l'erreur actuelle et de la dernière erreur
+        visualisationC(puissance);                          //Ecriture de l'état du chauffage dans data.txt
+        lastTemp = temperature.interieure;                  //Sauvegarde de la température intérieure pour une prochaine régulation
+        temperature = simCalc(puissance, monSimulateur_ps); //Simulation de l'environnement
     }
 }

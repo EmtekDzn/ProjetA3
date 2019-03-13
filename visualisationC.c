@@ -11,7 +11,7 @@ void visualisationC(float puissance_f) {
         FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
         fclose(fpVerrou);
 
-        FILE *fp = fopen("data.txt", "r+"); // Ouverture du fichier data.txt en mode read+
+        FILE *fp = fopen("data.txt", "r"); // Ouverture du fichier data.txt en mode read
 
         if (fp == NULL) {
             printf("visualisationC : Echec de l'ouverture du fichier data\n");
@@ -23,18 +23,18 @@ void visualisationC(float puissance_f) {
         fscanf(fp, "%f", &temp2);
         fclose(fp);
 
-        fp = fopen("data.txt", "w");
+        fp = fopen("data.txt", "w"); // Ouverture du fichier data.txt en mode write
         if (fp == NULL) {
             printf("visualisationC : Echec de la réouverture du fichier data\n");
             return;
         }
-        fprintf(fp, "%.2f\n", temp1);
-        fprintf(fp, "%.2f\n", temp2);
+        fprintf(fp, "%.2f\n", temp1); //Recopie des températures déjà présentes
+        fprintf(fp, "%.2f\n", temp2); //Recopie des températures déjà présentes
 
         if (puissance_f == 0) {
-            fprintf(fp, "false");
+            fprintf(fp, "false"); //Écriture de l'état du chauffage
         } else {
-            fprintf(fp, "true");
+            fprintf(fp, "true"); //Écriture de l'état du chauffage
         }
 
         fclose(fp);
