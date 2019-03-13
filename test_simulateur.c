@@ -13,7 +13,7 @@
 int main(){
     int i;        // increment de boucle
     float puissance = 70.0; // puissance de chauffage
-	float cmd, csgn;
+	float cmd = 0;
 	
     temp_t temperature;
     temperature.exterieure = 24.64;
@@ -39,18 +39,15 @@ int main(){
     /** 
 	 * Programme USB
 	 */
-
-    //FT_HANDLE descr = initUSB();
-    FT_HANDLE descr = 0;
-
     do {
-        temperature = releve(descr);
-        visualisationT(temperature);
-        csgn = consigne(csgn);
-        cmd = regulation(3, &params, params.consigne - temperature.interieure, params.consigne - lastTemp);
-        visualisationC(cmd);
-        commande(descr, cmd);
-	} while(1);
+        temperature = releve(); // Recupere les temperatures sur la carte
+        visualisationT(temperature); // Les ecrit dans data.txt
+        params.consigne = consigne(params.consigne); // Recupere la valeur de la consigne
+        cmd = regulation(3, &params, params.consigne - temperature.interieure, params.consigne - lastTemp); // Calcule la commande de chauffage (puissance)
+        visualisationC(cmd); // Ecrit cette valeur dans data.txt
+        lastTemp = temperature.interieure; // Stocke temporairement des temperatures
+        commande(cmd); // Envoie la commande sur la carte
+	} while(params.consigne > 5); // Tant que la consigne est > 5
 
 	simDestruct(monSimulateur_ps); // destruction de simulateur
 	

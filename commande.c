@@ -1,39 +1,40 @@
 #include "commande.h"
 
-void commande(FT_HANDLE descr, float cmd)
+/**
+ * Fonction de commande envoyant la puissance du chauffage à la carte
+ * @param cmd : Puissance en %
+ */
+void commande(float cmd)
 {
     FT_STATUS ftStatus;
     DWORD BytesWritten;
+    FT_HANDLE handle;
 
-    char TxBuffer[1]; // Contains data to write to device
+    char TxBuffer[1]; // Buffer contenant les données a ecrire sur la carte
 
-    int puis = (cmd / 100) * 127;
+    int puis = (cmd / 100) * 127; // Calcul de la puissance
 
-    // printf("Puissance(prc) : %f\n", cmd);
-    // printf("Puissance : %d\n", puis);
+    ftStatus = FT_Open(0, &handle); // Ouvre l'appareil et retourne un support d'accès.
 
-    ftStatus = FT_Open(0, &descr);
-
-    if (ftStatus != FT_OK) {
-        // FT_Open failed
-        return;
-    } else {
-        if (puis) {
-            TxBuffer[0] = puis /*&~ (1<<7)*/;
+    if (ftStatus != FT_OK) { // Si l'ouverture a échoué
+        return; // On quitte
+    } else { // Sinon
+        if (puis) { // Si la puissance n'est pas nulle
+            TxBuffer[0] = puis; // On l'écrit dans le buffer sur le premier octet
         } else {
-            TxBuffer[0] = (char)0;
+            TxBuffer[0] = (char)0; // Sinon on écrit 0
         }
 
-        ftStatus = FT_Write(descr, TxBuffer, sizeof(TxBuffer), &BytesWritten);
+        ftStatus = FT_Write(handle, TxBuffer, sizeof(TxBuffer), &BytesWritten); // Puis on l'écrit sur la carte
 
         if (ftStatus == FT_OK) {
-            // printf("FT_Write OK\n");
+            printf("FT_Write OK\n");
         } else {
             printf("FT_Write Failed\n");
         }
     }
 
-    FT_Close(descr);
+    FT_Close(handle); // On ferme le support
 
     return;
 }
