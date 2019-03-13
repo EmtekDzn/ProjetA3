@@ -58,6 +58,7 @@ temp_t releve() {
                 printf("10 : ");
                 break;
             default:
+                break;
         }
 
         // Calcul des temperatures en degres

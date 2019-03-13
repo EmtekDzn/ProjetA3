@@ -38,7 +38,7 @@ void visualisationC(float puissance_f) {
         }
 
         fclose(fp);
-        while (access(".verrouData", F_OK) != -1) { //Tant que le verrou n'est pas supprimé
+        while (access(".verrouData", F_OK) != -1) { //Tant que le verrou existe
             remove(".verrouData"); // Suppression du verrou
         }
     }

@@ -56,6 +56,7 @@ float regulation(int mode_PID, params_regul *params, float err, float last_err) 
             kp = KP_USB;
             break;
         default:
+            break;
         }
 
         float P = err * kp;
