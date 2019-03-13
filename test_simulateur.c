@@ -9,18 +9,6 @@
 #include "visualisationT.h"
 #include "consigne.h"
 
-void microsleep(__int64 usec)
-{
-    HANDLE timer;
-    LARGE_INTEGER ft;
-
-    ft.QuadPart = -(10 * usec); // Convert to 100 nanosecond interval, negative value indicates relative time
-
-    timer = CreateWaitableTimer(NULL, TRUE, NULL);
-    SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0);
-    WaitForSingleObject(timer, INFINITE);
-    CloseHandle(timer);
-}
 
 int main(){
     int i;        // increment de boucle
@@ -28,8 +16,8 @@ int main(){
 	float cmd = 0;
 	
     temp_t temperature;
-    temperature.exterieure = 14.0;
-    temperature.interieure = 16.0;
+    temperature.exterieure = 24.64;
+    temperature.interieure = 14.00;
 
     struct simParam_s *monSimulateur_ps = simConstruct(temperature); // creation du simulateur, puissance intialisee a 0%
     
@@ -40,17 +28,14 @@ int main(){
     params.integrale_totale = 0;
     params.mode = 2;
 
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 2000; i++) {
         visualisationT(temperature);
         params.consigne = consigne(params.consigne);
-        //puissance = regulation(2, &params, params.consigne - temperature.interieure, params.consigne - lastTemp);
+        puissance = regulation(2, &params, params.consigne - temperature.interieure, params.consigne - lastTemp);
         visualisationC(puissance);
         lastTemp = temperature.interieure;
         temperature = simCalc(puissance, monSimulateur_ps); // simulation de l'environnement
-        //microsleep(25e4);
     }
-    //return EXIT_SUCCESS;
-
     /** 
 	 * Programme USB
 	 */

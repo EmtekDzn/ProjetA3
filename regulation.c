@@ -1,8 +1,8 @@
 #include "regulation.h"
 /**
  * @fn regulationTest
- * Renvoie la puissance en % ou tout-ou-rien
- * @param regul 1 = tout-ou-rien, 2 = PID
+ * Renvoie la puissance en % ou tout-ou-rien (pour les tests unitaires)
+ * @param regul le mode de régulation 1 = tout-ou-rien, 2 = PID
  * @param csgn la température de consigne
  * @param tabT tableau de températures intérieures successives en entrée de la
  * régulation
@@ -28,7 +28,7 @@ float regulationTest(int regul, float csgn, float *tabT, int nT) {
  * @param mode_PID (2=simu, 3=USB)
  * @param params le pointeur vers la struct params
  * @param err l'erreur actuelle (consigne - Température intérieure)
- * @param last_err l'erreur précédente
+ * @param last_err l'erreur précédente (consigne - Température intérieure précédente)
  * @return la commande
  */
 float regulation(int mode_PID, params_regul *params, float err, float last_err) {
@@ -40,17 +40,17 @@ float regulation(int mode_PID, params_regul *params, float err, float last_err) 
     } else { // Mode PID
         float ki, kd, kp;
         switch (mode_PID) {
-        case 1:
+        case 1: //Mode tests unitaires
             ki = KI_UNIT;
             kd = KD_UNIT;
             kp = KP_UNIT;
             break;
-        case 2:
+        case 2: //Mode simulation
             ki = KI_SIMU;
             kd = KD_SIMU;
             kp = KP_SIMU;
             break;
-        case 3:
+        case 3: //Mode USB
             ki = KI_USB;
             kd = KD_USB;
             kp = KP_USB;
@@ -58,12 +58,13 @@ float regulation(int mode_PID, params_regul *params, float err, float last_err) 
         }
 
         float P = err * kp;
-        params->integrale_totale += (err * DELTA_T) + ((last_err - err) * (DELTA_T)) / 2;
+        params->integrale_totale += (err * DELTA_T) + ((last_err - err) * (DELTA_T)) / 2; //Rajout de l'intégrale actuelle à l'intégrale totale
         float I = params->integrale_totale * ki;
         float D = ((err - last_err) / DELTA_T) * kd;
 
-        printf("P : %f\nI : %f\nD : %f\n", P, I, D);
+        //printf("P : %f\nI : %f\nD : %f\n", P, I, D);
         float PID = P + I + D;
+        //Prévention d'une puissance > 100 ou <0
         if (PID > 100)
             PID = 100;
         if (PID < 0)
