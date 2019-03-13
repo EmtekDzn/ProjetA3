@@ -8,7 +8,7 @@ temp_t releve() {
     temp.interieure = 0;
 
     unsigned char RxBuffer[256] = {0}; // Buffer dans lequel on va recuperer les données
-    int i, SOTint, SOText;
+    int SOTint, SOText;
 
     FT_STATUS ftStatus;
     FT_HANDLE handle;
