@@ -57,6 +57,7 @@ temp_t releve() {
                 SOTint = ( ((RxBuffer[4] & 0x0F) << 8) | ((RxBuffer[5] & 0x0F ) << 4) | (RxBuffer[0] & 0x0F) );
                 printf("10 : ");
                 break;
+            default:
         }
 
         // Calcul des temperatures en degres

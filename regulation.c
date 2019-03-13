@@ -55,6 +55,7 @@ float regulation(int mode_PID, params_regul *params, float err, float last_err) 
             kd = KD_USB;
             kp = KP_USB;
             break;
+        default:
         }
 
         float P = err * kp;
@@ -65,10 +66,12 @@ float regulation(int mode_PID, params_regul *params, float err, float last_err) 
         //printf("P : %f\nI : %f\nD : %f\n", P, I, D);
         float PID = P + I + D;
         //Prévention d'une puissance > 100 ou <0
-        if (PID > 100)
+        if (PID > 100) {
             PID = 100;
-        if (PID < 0)
+        }
+        if (PID < 0) {
             PID = 0;
+        }
         return PID;
     }
 }
