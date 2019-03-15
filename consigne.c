@@ -3,6 +3,7 @@
 /**
  * Lit la valeur de la consigne dans le fichier consigne.txt
  * @param csgn valeur retournée si le verrou est présent
+ * @return csgn la consigne lue s'il n'y avait pas de verrou, la valeur passée en paramètre sinon
  */
 float consigne(float csgn)
 {

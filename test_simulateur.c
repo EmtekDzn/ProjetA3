@@ -16,7 +16,7 @@ int main(){
 	float cmd = 0;
 	
     temp_t temperature;
-    temperature.exterieure = 24.64;
+    temperature.exterieure = 14.00;
     temperature.interieure = 14.00;
 
     struct simParam_s *monSimulateur_ps = simConstruct(temperature); // creation du simulateur, puissance intialisee a 0%
@@ -27,7 +27,9 @@ int main(){
     params.consigne = 20;
     params.integrale_totale = 0;
     params.mode = 2;
-
+    /**
+     * Programme simulé
+     */
     for (i = 0; i < 2000; i++) {
         visualisationT(temperature);
         params.consigne = consigne(params.consigne);
@@ -35,6 +37,7 @@ int main(){
         visualisationC(puissance);
         lastTemp = temperature.interieure;
         temperature = simCalc(puissance, monSimulateur_ps); // simulation de l'environnement
+        usleep(5e4);
     }
     /** 
 	 * Programme USB
