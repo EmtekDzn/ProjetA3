@@ -7,8 +7,7 @@ void visualisationT(temp_t myTemp) {
     if (access(".verrouData", F_OK) != -1) { // Si le fichier .verrouData existe
         printf("visualisationT : Verrou présent, impossible d'ouvrir le fichier data\n");
     } else {
-        FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
-        fclose(fpVerrou);
+        fclose(fopen(".verrouData", "w")); // Création du verrou
 
         FILE *fp = fopen("data.txt", "r");
         if (fp == NULL) { //Si l'ouverture du fichier a échoué

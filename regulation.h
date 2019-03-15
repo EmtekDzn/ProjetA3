@@ -1,5 +1,5 @@
 #include "define.h"
-/*Constantes PID pour tests initaires*/
+/*Constantes PID pour tests unitaires*/
 #define KP_UNIT 1
 #define KD_UNIT 0.1
 #define KI_UNIT 0.1

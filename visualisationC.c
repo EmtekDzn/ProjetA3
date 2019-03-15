@@ -8,8 +8,7 @@ void visualisationC(float puissance_f) {
     if (access(".verrouData", F_OK) != -1) { // Si le fichier .verrouData existe
         printf("visualisationC : Verrou présent, impossible d'ouvrir le fichier data\n");
     } else {
-        FILE *fpVerrou = fopen(".verrouData", "w"); // Création du verrou
-        fclose(fpVerrou);
+        fclose(fopen(".verrouData", "w")); // Création du verrou
 
         FILE *fp = fopen("data.txt", "r"); // Ouverture du fichier data.txt en mode read
 
