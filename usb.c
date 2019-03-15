@@ -10,7 +10,6 @@
 
 
 int main(){
-    float puissance = 70.0; // puissance de chauffage
 	float cmd = 0;
 	
     temp_t temperature;

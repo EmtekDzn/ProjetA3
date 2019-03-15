@@ -10,7 +10,7 @@
 #include "consigne.h"
 
 
-int main(){
+int simulation(){
     int i;        // increment de boucle
     float puissance = 70.0; // puissance de chauffage
 	float cmd = 0;
@@ -39,22 +39,8 @@ int main(){
         temperature = simCalc(puissance, monSimulateur_ps); // simulation de l'environnement
         usleep(5e4);
     }
-    /** 
-	 * Programme USB
-	 */
-    do {
-        temperature = releve(); // Recupere les temperatures sur la carte
-        visualisationT(temperature); // Les ecrit dans data.txt
-        params.consigne = consigne(params.consigne); // Recupere la valeur de la consigne
-        cmd = regulation(3, &params, params.consigne - temperature.interieure, params.consigne - lastTemp); // Calcule la commande de chauffage (puissance)
-        visualisationC(cmd); // Ecrit cette valeur dans data.txt
-        lastTemp = temperature.interieure; // Stocke temporairement des temperatures
-        commande(cmd); // Envoie la commande sur la carte
-	} while(params.consigne > 5); // Tant que la consigne est > 5
 
 	simDestruct(monSimulateur_ps); // destruction de simulateur
 	
-	//FT_Close(descr);
-
 	return EXIT_SUCCESS;
 }
