@@ -21,5 +21,8 @@ clean:
 clear:
 	rm obj/*.o *.gch -f
 
-zip:
-	zip tests.zip consigne.c consigne.h visualisationT.c visualisationT.h visualisationC.c visualisationC.h regulation.c regulation.h integration.c integration.h simulateur.c simulateur.h define.h
+zipsimu:
+	zip simu.zip consigne.c consigne.h visualisationT.c visualisationT.h visualisationC.c visualisationC.h regulation.c regulation.h integration.c integration.h simulateur.c simulateur.h define.h
+
+zipusb:
+	zip usb.zip usb.c releve.c releve.h visualisationT.c visualisationT.h visualisationC.c visualisationC.h regulation.c regulation.h integration.c integration.h commande.c commande.h define.h
