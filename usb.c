@@ -10,7 +10,7 @@
 
 
 int main(){
-	float cmd = 0;
+	float cmd = 40;
 	
     temp_t temperature;
     temperature.exterieure = 24.64;

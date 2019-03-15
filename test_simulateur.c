@@ -13,7 +13,6 @@
 int simulation(){
     int i;        // increment de boucle
     float puissance = 70.0; // puissance de chauffage
-	float cmd = 0;
 	
     temp_t temperature;
     temperature.exterieure = 14.00;
